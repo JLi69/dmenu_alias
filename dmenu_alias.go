@@ -5,8 +5,8 @@ import (
 	"errors"
 	"fmt"
 	"os"
-	"strings"
 	"sort"
+	"strings"
 )
 
 // Takes a line of the form str1=str2 and returns (str1, str2)
@@ -52,7 +52,7 @@ func parseAliasList(path string) map[string]string {
 	return aliasList
 }
 
-func readDmenuOutput(aliasList map[string] string) {
+func readDmenuOutput(aliasList map[string]string) {
 	//Read stdin line by line and return the aliased string from the input
 	reader := bufio.NewReader(os.Stdin)
 
@@ -80,16 +80,16 @@ func readDmenuOutput(aliasList map[string] string) {
 	}
 }
 
-func outputDmenuInput(aliasList map[string] string) {	
+func outputDmenuInput(aliasList map[string]string) {
 	dmenuInput := make([]string, 0)
-	set := make(map[string] bool)
+	set := make(map[string]bool)
 
 	//Insert alias strings into the set and input
 	for str := range aliasList {
 		dmenuInput = append(dmenuInput, str)
 		set[str] = true
 	}
-	
+
 	//Read stdin line by line and return the aliased string from the input
 	reader := bufio.NewReader(os.Stdin)
 	for {
@@ -159,15 +159,15 @@ func readOptions() int {
 }
 
 func main() {
-	aliasList := parseAliasList(getPathFromArgs())	
+	aliasList := parseAliasList(getPathFromArgs())
 	switch readOptions() {
-		case outputMode:
-			readDmenuOutput(aliasList)
-			break
-		case inputMode:
-			outputDmenuInput(aliasList)
-			break
-		default:
-			break
+	case outputMode:
+		readDmenuOutput(aliasList)
+		break
+	case inputMode:
+		outputDmenuInput(aliasList)
+		break
+	default:
+		break
 	}
 }
