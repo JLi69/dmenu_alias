@@ -9,19 +9,29 @@ import (
 	"strings"
 )
 
+// Returns the index of the first equal sign in the line
+func findEqualSign(line string) int {
+	for i, ch := range line {
+		if ch == '=' {
+			return i
+		}
+	}
+	return len(line)
+}
+
 // Takes a line of the form str1=str2 and returns (str1, str2)
 // if the line is not properly formatted, return an error
 // Example: vi=nvim will return (vi, nvim)
 func parseLine(line string) (string, string, error) {
-	alias := strings.Split(line, "=")
+	index := findEqualSign(line)
 
-	if len(alias) == 2 {
-		return strings.Replace(alias[0], "\n", "", -1),
-			strings.Replace(alias[1], "\n", "", -1),
-			nil
+	if index == len(line) {
+		return "", "", errors.New("Syntax error: " + line)
 	}
 
-	return "", "", errors.New("Syntax error: " + line)
+	return strings.Replace(line[:index], "\n", "", -1),
+		strings.Replace(line[(index+1):], "\n", "", -1),
+		nil
 }
 
 // Parse the aliast list and return a map
@@ -42,7 +52,7 @@ func parseAliasList(path string) map[string]string {
 		line := scanner.Text()
 		s1, s2, err := parseLine(line)
 		if err != nil {
-			fmt.Fprintf(os.Stderr, err.Error())
+			fmt.Fprintf(os.Stderr, "%s\n", err.Error())
 			continue
 		}
 
