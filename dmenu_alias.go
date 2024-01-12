@@ -37,7 +37,9 @@ func parseLine(line string) (string, string, error) {
 	}
 
 	parseEscape := strings.Replace(line[:index], "\\=", "=", -1)
-	parseEscape = strings.Replace(line[:index], "\\\\", "\\", -1)
+	parseEscape = strings.Replace(parseEscape, "\\\\", "\\", -1)
+
+	fmt.Println(parseEscape)
 
 	return strings.TrimSpace(parseEscape),
 		strings.TrimSpace(line[(index+1):]),
