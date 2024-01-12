@@ -45,6 +45,10 @@ be given as a command to the shell so that `vi` can be run in a terminal
 window (this makes `dmenu_alias` useful for running terminal apps directly from
 dmenu).
 
+### Escape Sequences
+
+If your text contains `=` or `\`, use `\=` and `\\` to represent them.
+
 ## Usage
 ```
 dmenu_alias [-i|-o] [alias list file]

@@ -1,2 +1,5 @@
 godot=flatpak run org.godotengine.Godot
 htop=alacritty -e htop
+2+2\==4
+hello=
+foo\\=bar

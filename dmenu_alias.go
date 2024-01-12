@@ -10,10 +10,17 @@ import (
 )
 
 // Returns the index of the first equal sign in the line
+// ignores escape sequences '\='
 func findEqualSign(line string) int {
+	inEscape := false
 	for i, ch := range line {
-		if ch == '=' {
+		if ch == '\\' && !inEscape {
+			//Escape sequence ('\=' -> '=', '\\' = '\')
+			inEscape = true
+		} else if ch == '=' && !inEscape {
 			return i
+		} else if inEscape {
+			inEscape = false
 		}
 	}
 	return len(line)
@@ -29,8 +36,11 @@ func parseLine(line string) (string, string, error) {
 		return "", "", errors.New("Syntax error: " + line)
 	}
 
-	return strings.Replace(line[:index], "\n", "", -1),
-		strings.Replace(line[(index+1):], "\n", "", -1),
+	parseEscape := strings.Replace(line[:index], "\\=", "=", -1)
+	parseEscape = strings.Replace(line[:index], "\\\\", "\\", -1)
+
+	return strings.TrimSpace(parseEscape),
+		strings.TrimSpace(line[(index+1):]),
 		nil
 }
 
