@@ -40,7 +40,7 @@ func parseLine(line string) (string, string, error) {
 	parseEscape = strings.Replace(parseEscape, "\\\\", "\\", -1)
 
 	return strings.TrimSpace(parseEscape),
-		strings.TrimSpace(line[(index+1):]),
+		strings.TrimSpace(line[(index + 1):]),
 		nil
 }
 
